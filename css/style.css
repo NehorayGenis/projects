@@ -1,0 +1,39 @@
+body {
+  background-color: rgb(255, 75, 75);
+  color: rgb(192, 192, 192);
+  text-align: center;
+}
+
+.cell {
+  width:80px;
+  height: 80px;
+  text-align: center;
+  font-size: 1.5em;
+}
+td {
+  border: 2px solid red;
+  border-collapse: collapse;
+}
+table {
+  margin: auto;
+  border-collapse: collapse;
+}
+.cell{
+  font-size: 40px;
+  text-align: center;    
+}
+.cell :focus{
+  opacity: 1;
+}
+.img{
+  max-height:100px; 
+  max-width:100px;
+}
+.reset{
+  display: none;
+}
+.gameboard{
+  margin: auto;
+  max-width:350px ;
+  border: dotted 4px black;
+}
