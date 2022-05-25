@@ -8,8 +8,14 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body onload="init()">
-    <h1 >hello</h1>
+    <button class="easy difficulty" onclick="setMineAmount(4)">easy</button>
+    <button class="medium difficulty" onclick="setMineAmount(8)">medium</button>
+    <button class="hard difficulty" onclick="setMineAmount(12)">hard</button>
+
     <div class="gameboard">
+        <button class="hints" onclick="revealHint()">💡💡💡</button>
+        <button class="safe" onclick="safeCell()">safe click</button>
+        <div class="lifes">❤❤❤</div>
         <button class="emoji" onclick="init()">😊</button>
         <div class="board-container">
             

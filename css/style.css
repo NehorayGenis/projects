@@ -5,8 +5,8 @@ body {
 }
 
 .cell {
-  width:80px;
-  height: 80px;
+  width:25px;
+  height: 25px;
   text-align: center;
   font-size: 1.5em;
 }
@@ -17,9 +17,10 @@ td {
 table {
   margin: auto;
   border-collapse: collapse;
+  /* height: 500vh; */
 }
 .cell{
-  font-size: 40px;
+  font-size: 20px;
   text-align: center;    
 }
 .cell :focus{
@@ -34,6 +35,16 @@ table {
 }
 .gameboard{
   margin: auto;
-  max-width:350px ;
-  border: dotted 4px black;
+  /* display: inline-block; */
+    border: dotted 4px black;
+}
+.hints{
+  float: left;
+}
+
+.safe{
+  float: right;
+}
+.emoji{
+  margin:auto;
 }
