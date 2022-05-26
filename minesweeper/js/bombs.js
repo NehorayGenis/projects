@@ -1,10 +1,16 @@
 "use strict";
+var gLevel = {
+  SIZE: 4,
+  MINES: 2,
+};
 var gMines = [];
 const BOMB = "🧨";
 var gCounter = 0;
 var gUserPicks = false;
 var userCellPicks=[];
-var gUserPicksCounter=3;
+var gUserPicksCounter=gLevel.MINES;
+
+
 // randomly places mines in the field while checking if its the first click and checking that no cell will comeout twice
 function plantMines(board, locateCell) {
 
@@ -22,14 +28,15 @@ function plantMines(board, locateCell) {
   if (amountOfMines === 2) {
     gLifeCounter--;
   }
-  if (gUserPicks) {
-    var cell=userCellPicks.pop()
+  while (userCellPicks.length>0) {
+    var elCell=userCellPicks.pop()
+    var cell=gBoard[elCell.i][elCell.j]
     cell.isMine = true;
-    gMines.push(bomb);
+    console.log(cell);
+    gMines.push(elCell);
     gCounter++;
   }
   
-  console.log(gCounter);
   while (gCounter < amountOfMines) {
     var ranI = getRandomIntInt(0, board.length);
     var ranJ = getRandomIntInt(0, board.length);
@@ -45,7 +52,7 @@ function plantMines(board, locateCell) {
   }
 
   setMinesNegsCount(board);
-  console.log(gMines);
+  // console.log(gMines);
 }
 
 // sets the mine's neighbor count
@@ -63,12 +70,15 @@ function setMinesNegsCount(board) {
 
 //check the left click on each cell
 function cellClicked(elCell, i, j) {
-  console.log(userCellPicks);
   bestTimeUpdate();
   if (!gGame.isOn) return;
   copyMat(gBoard);
   if (gUserPicks) {
-    userCellPicks.push(elCell)
+    var cell={
+      i:i,
+      j:j
+    }
+    userCellPicks.push(cell)
     gUserPicksCounter--;
     if (gUserPicksCounter===0) {
       gUserPicks=false;

@@ -14,7 +14,6 @@ var gHintCounter = 3;
 var gflagCounter = 0;
 var gSafeCounter = 3;
 var gOpenedCells = [];
-// localStorage.SetItem('bestTime',Infinity);
 var gTime = 0;
 
 var gBestTime = localStorage.getItem("bestTimes");
@@ -27,10 +26,8 @@ var gElHint = document.querySelector(".hints");
 var gElSafe = document.querySelector(".safe");
 var timerInterval;
 var elTimer = document.querySelector(".timer");
-var gLevel = {
-  SIZE: 4,
-  MINES: 2,
-};
+
+
 var gGame = {
   isOn: true,
   shownCount: 0,
@@ -42,10 +39,7 @@ var gGame = {
 
 function init(size = 4) {
   gFirstClick = true;
-  if (size===4) {
-    gLevel.SIZE===4;
-  }
-  gUserPicksCounter=3
+
   bestTimeUpdate();
   gCounter = 0;
   clearInterval(timerInterval);
@@ -65,6 +59,7 @@ function init(size = 4) {
 // standart build board function
 function buildBoard() {
   var size = gLevel.SIZE;
+  console.log(size);
   var board = [];
   for (var i = 0; i < size; i++) {
     board.push([]);
@@ -79,7 +74,6 @@ function buildBoard() {
 
 function checkGameOver(win) {
   clearInterval(timerInterval);
-  bestTimeUpdate();
   // localStorage.setItem('bestTimes', 200000)
   if (win) {
     if (!gBestTime) {
@@ -184,17 +178,25 @@ function revealNeighbor(cellI, cellJ, mat) {
 
 function setMineAmount(size) {
   gLevel.SIZE = size;
-
+  
   if (gLevel.SIZE === 4) {
+    gLevel.SIZE = size;
+    gElLife.innerText='❤❤'
     gLevel.MINES = 2;
-    init();
-
+    gUserPicksCounter=gLevel.MINES
+    init(4);
+    
+    
   } else if (gLevel.SIZE === 8) {
+    gLevel.SIZE = size;
     gLevel.MINES = 12;
-    init();
+    gUserPicksCounter=gLevel.MINES
+    init(8);
   } else {
+    gLevel.SIZE = size;
     gLevel.MINES = 30;
-    init();
+    gUserPicksCounter=gLevel.MINES
+    init(12);
   }
 }
 
@@ -312,6 +314,7 @@ function copyMat(board) {
   gPrevBoards.push(prevMat);
 }
 // maybe its shallows copy instead of deep???
+//confired its a clone and still dosent workkkkkkkkk
 
 function trial(){
   var trial=[[1],[2]]
@@ -345,7 +348,8 @@ function update_timer() {
 
 function bestTimeUpdate() {
   var elRecord = document.querySelector(".best-time");
-  elRecord.innerText = gBestTime;
+  gBestTime
+  elRecord.innerText = gBestTime/1000+' S';
 }
 
 /*BUGS and todo:
