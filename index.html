@@ -11,6 +11,7 @@
     <button class="easy difficulty" onclick="setMineAmount(4)">easy</button>
     <button class="medium difficulty" onclick="setMineAmount(8)">medium</button>
     <button class="hard difficulty" onclick="setMineAmount(12)">hard</button>
+    <div class="timer">xx:xx:xx</div>
 
     <div class="gameboard">
         <button class="hints" onclick="revealHint()">💡💡💡</button>
@@ -20,7 +21,13 @@
         <div class="board-container">
             
         </div>
+        <button class="safe" onclick="undo()">undo Beta</button>
+        <button class="boom" onclick="boom()">7-boom</button>
+        <button class="userPicks" onclick="userPicks()">manually create</button>
+        <!-- <button class="printable" onclick="trial()">sss</button> -->
+
     </div>
+    <div class="best-time">????</div>
     <footer>Nehroay Genis</footer>
     <script src="js/util.js"></script>
     <script src="js/bombs.js"></script>

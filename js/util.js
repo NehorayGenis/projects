@@ -4,7 +4,17 @@ function printMat(mat, selector) {
   for (var i = 0; i < mat.length; i++) {
     strHTML += "<tr>";
     for (var j = 0; j < mat[0].length; j++) {
-      cell = BLOCKED;
+      if(!mat[i][j].isShown){
+        cell = BLOCKED;
+      }
+      else if(mat[i][j].isMine&&mat[i][j].isShown){
+        cell=BOMB
+      }else if(mat[i][j].minesAroundCount>0&&mat[i][j].isShown){
+        cell=mat[i][j].minesAroundCount
+      }else{
+        cell=EMPTY
+      }
+      
       var className = `cell cell-${i}-${j}`;
       strHTML += `<td class="${className}" oncontextmenu="cellMarked(this,${i}, ${j});return false; " onclick="cellClicked(this, ${i}, ${j}) "> ${cell}  </td>`;
     }
