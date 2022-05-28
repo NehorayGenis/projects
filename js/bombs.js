@@ -93,6 +93,7 @@ function revealNeighbors(cell, location) {
         i: i,
         j: j,
       };
+      if (gBoard[i][j].isShown) continue
       renderCell2(gBoard[i][j], cellLocation)
     }
   }
