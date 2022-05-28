@@ -60,7 +60,6 @@ function init(size = 4) {
 // standart build board function
 function buildBoard() {
   var size = gLevel.SIZE;
-  console.log(size);
   var board = [];
   for (var i = 0; i < size; i++) {
     board.push([]);
@@ -201,65 +200,65 @@ function setMineAmount(size) {
   }
 }
 
-function revealHint() {
-  var safeCells=[];
-  if (!gGame.isOn) return;
-  if (gFirstClick) return;
-  if (gHintCounter === 0) return;
-  gHintIsOn=true
-
-  var ranI = getRandomIntInt(0, gBoard.length - 1);
-  var ranIdx = getRandomIntInt(0, gBoard.length - 1);
-  var ranJ = getRandomIntInt(0, gBoard.length - 1);
-  var location = {
-    i: ranI,
-    j: ranJ,
-  };
-  var timeout=0;
-  for (var i = 0; i < gBoard.length; i++) {
-    for (var j = 0; j < gBoard.length; j++) {
-      if(!gBoard[i][j].isShown){
-        safeCells.push({
-          innerCell:gBoard[i][j],
-          i:i,
-          j:j
-        })
-      }     
-    }
-  }
-  var ranI = getRandomIntInt(0, safeCells.length - 1);
-  var cell=safeCells.splice(ranI,1)
-  var location = {
-    i: cell[0].i,
-    j:cell[0].j
-  };
-  cell=cell[0].innerCell;
-  var revealInerval = setInterval(function () {
-    if (cell.isMine) {
-      renderCell(location, BOMB);
-    } else if (cell.minesAroundCount > 0) {
-      renderCell(location, cell.minesAroundCount);
-    } else {
-      renderCell(location, EMPTY);
-    }
-    setTimeout(function () {
-      renderCell(location, BLOCKED);
-    }, 250);
-  }, 500);
-  setTimeout(function () {
-    clearInterval(revealInerval);
-  }, 2000);
-  gHintCounter--;
-  var hintStr = "";
-  for (var i = 0; i < gHintCounter; i++) {
-    hintStr += HINT;
-  }
-  if (gHintCounter === 0) hintStr = "no more hints";
-  gElHint.innerText = hintStr;
-}
-// function revealHint(){
+// function revealHint() {
+//   var safeCells=[];
+//   if (!gGame.isOn) return;
+//   if (gFirstClick) return;
+//   if (gHintCounter === 0) return;
 //   gHintIsOn=true
+
+//   var ranI = getRandomIntInt(0, gBoard.length - 1);
+//   var ranIdx = getRandomIntInt(0, gBoard.length - 1);
+//   var ranJ = getRandomIntInt(0, gBoard.length - 1);
+//   var location = {
+//     i: ranI,
+//     j: ranJ,
+//   };
+//   var timeout=0;
+//   for (var i = 0; i < gBoard.length; i++) {
+//     for (var j = 0; j < gBoard.length; j++) {
+//       if(!gBoard[i][j].isShown){
+//         safeCells.push({
+//           innerCell:gBoard[i][j],
+//           i:i,
+//           j:j
+//         })
+//       }     
+//     }
+//   }
+//   var ranI = getRandomIntInt(0, safeCells.length - 1);
+//   var cell=safeCells.splice(ranI,1)
+//   var location = {
+//     i: cell[0].i,
+//     j:cell[0].j
+//   };
+//   cell=cell[0].innerCell;
+//   var revealInerval = setInterval(function () {
+//     if (cell.isMine) {
+//       renderCell(location, BOMB);
+//     } else if (cell.minesAroundCount > 0) {
+//       renderCell(location, cell.minesAroundCount);
+//     } else {
+//       renderCell(location, EMPTY);
+//     }
+//     setTimeout(function () {
+//       renderCell(location, BLOCKED);
+//     }, 250);
+//   }, 500);
+//   setTimeout(function () {
+//     clearInterval(revealInerval);
+//   }, 2000);
+//   gHintCounter--;
+//   var hintStr = "";
+//   for (var i = 0; i < gHintCounter; i++) {
+//     hintStr += HINT;
+//   }
+//   if (gHintCounter === 0) hintStr = "no more hints";
+//   gElHint.innerText = hintStr;
 // }
+function revealHint(){
+  gHintIsOn=true
+}
 
 function safeCell() {
   var safeCells=[]

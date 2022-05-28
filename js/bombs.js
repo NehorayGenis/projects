@@ -9,6 +9,7 @@ var gCounter = 0;
 var gUserPicks = false;
 var userCellPicks = [];
 var gUserPicksCounter = gLevel.MINES;
+var gHintedCells = [];
 
 // randomly places mines in the field while checking if its the first click and checking that no cell will comeout twice
 function plantMines(board, locateCell) {
@@ -29,7 +30,6 @@ function plantMines(board, locateCell) {
     var elCell = userCellPicks.pop();
     var cell = gBoard[elCell.i][elCell.j];
     cell.isMine = true;
-    console.log(cell);
     gMines.push(elCell);
     gCounter++;
   }
@@ -64,7 +64,25 @@ function setMinesNegsCount(board) {
     }
   }
 }
+function renderCell2(cell, location) {
+  gHintedCells.push(location);
+  cell.isShown = true;
+  updateOpenCells(cell);
+  var value = cell.minesAroundCount;
+  if (cell.isMine) {
+    renderCell(location, BOMB);
+    cell.isShown = false;
+  } else if (value > 0) {
+    renderCell(location, value);
+    cell.isShown = false;
+  } else {
+    renderCell(location, EMPTY);
+    cell.isShown = false;
+  }
+}
 function revealNeighbors(cell, location) {
+  var sentCell=gBoard[location.i][location.j]
+  renderCell2(sentCell, location);
   copyMat(gBoard);
   for (var i = location.i - 1; i <= location.i + 1; i++) {
     if (i < 0 || i >= gBoard.length) continue;
@@ -75,48 +93,36 @@ function revealNeighbors(cell, location) {
         i: i,
         j: j,
       };
-      gBoard[i][j].isShown = true;
-      updateOpenCells(gBoard[i][j]);
-      var value = gBoard[i][j].minesAroundCount;
-      if(gBoard[i][j].isMine){
-        renderCell(cellLocation, BOMB);
-        setTimeout(function () {
-          // gBoard[i][j].isShown = false;
-          renderCell(cellLocation, BLOCKED);
-        }, 1000);
-      }
-      else if (value > 0) {
-        renderCell(cellLocation, value); 
-        setTimeout(function () {
-          // gBoard[i][j].isShown = false;
-          renderCell(cellLocation, BLOCKED);
-        }, 1000);
-      } else {
-        renderCell(cellLocation, EMPTY);
-        setTimeout(function () {
-          // gBoard[i][j].isShown = false;
-          renderCell(cellLocation, BLOCKED);
-        }, 1000);
-      }
-      setTimeout(function () {
-        // gBoard[i][j].isShown = false;
-        renderCell(cellLocation, BLOCKED);
-      }, 1000);
+      renderCell2(gBoard[i][j], cellLocation)
     }
   }
-  gHintIsOn=false;
+  setTimeout(function () {
+    printMat(gBoard, ".board-container");
+  }, 1000);
+
+  gHintCounter--;
+  updateCounter(gElHint,HINT,gHintCounter)
+  gHintIsOn = false;
+}
+function updateCounter(elCounter,value,count){
+  var valueStr = "";
+  for (var i = 0; i < count; i++) {
+    valueStr += value;
+  }
+  elCounter.innerText = valueStr;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //check the left click on each cell
 function cellClicked(elCell, i, j) {
   bestTimeUpdate();
   if (!gGame.isOn) return;
-  if (gHintIsOn) {
+  if (gHintIsOn && gHintCounter>0) {
     var location = {
       i: i,
       j: j,
     };
     revealNeighbors(elCell, location);
+    return;
   }
   copyMat(gBoard);
   if (gUserPicks) {
@@ -146,6 +152,7 @@ function cellClicked(elCell, i, j) {
   if (cell.isShown) return;
 
   if (cell.isMarked) return;
+
   cell.isShown = true;
   updateOpenCells(cell);
   if (cell.isMine && gLifeCounter === 1) {
@@ -158,16 +165,12 @@ function cellClicked(elCell, i, j) {
     music.play();
     gLifeCounter--;
     gflagCounter++;
-    var heartStr = "";
-    for (var i = 0; i < gLifeCounter; i++) {
-      heartStr += LIFE;
-    }
-    gElLife.innerText = heartStr;
+    updateCounter(gElLife,LIFE,gLifeCounter)
   } else if (cell.minesAroundCount > 0) {
     renderCell(location, cell.minesAroundCount);
   } else {
-    revealNeighbor(i, j, gBoard);
     renderCell(location, EMPTY);
+    fullReveal(i, j)
   }
 }
 
